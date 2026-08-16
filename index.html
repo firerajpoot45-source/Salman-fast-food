@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>SBHIA AI</title>
+<style>
+*{box-sizing:border-box}body{margin:0;height:100vh;overflow:hidden;background:#07090f;color:#eef2ff;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+.app{height:100%;display:flex}.side{width:270px;background:#090c13;border-right:1px solid #202838;padding:18px;display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:850;margin-bottom:24px}.logo{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#7c5cff,#25d6c8);font-weight:900}
+button{cursor:pointer}.new{border:1px solid #30394b;background:#111725;color:#fff;border-radius:12px;padding:12px;font-weight:750}.recent{margin-top:24px;color:#7f899b;font-size:11px;text-transform:uppercase;letter-spacing:.1em}
+.item{padding:10px;border-radius:9px;margin-top:8px;color:#cbd2df;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.item:hover{background:#151b29}.foot{margin-top:auto;color:#697386;font-size:12px}
+.main{min-width:0;flex:1;display:flex;flex-direction:column}.top{height:64px;border-bottom:1px solid #202838;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:#090c13dd;backdrop-filter:blur(12px)}
+.status{display:flex;align-items:center;gap:9px;font-weight:750}.dot{width:8px;height:8px;border-radius:50%;background:#35e59b;box-shadow:0 0 12px #35e59b}.clear{border:0;background:transparent;color:#8f99aa;font-size:18px;padding:8px;border-radius:9px}.clear:hover{background:#151b28;color:#fff}
+.messages{flex:1;overflow:auto;padding:25px 15px 145px}.wrap{max-width:850px;margin:auto}.welcome{text-align:center;padding:8vh 10px 25px}.welcome h1{font-size:clamp(32px,5vw,48px);letter-spacing:-.04em;margin:0 0 10px}.grad{background:linear-gradient(90deg,#fff,#25d6c8);-webkit-background-clip:text;color:transparent}.welcome p{color:#8993a5}.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:650px;margin:28px auto}.card{text-align:left;background:#0d111a;border:1px solid #202838;border-radius:14px;padding:15px;color:#dce3f0}.card:hover{border-color:#46516a;transform:translateY(-1px)}.card b{display:block;margin-bottom:5px}.card span{font-size:12px;color:#7f899b}
+.msg{display:flex;gap:12px;margin:20px auto;max-width:850px}.msg.user{justify-content:flex-end}.avatar{width:34px;height:34px;min-width:34px;border-radius:10px;background:#171e2d;display:grid;place-items:center;font-size:11px;font-weight:850;color:#d7deeb}.ai .avatar{background:linear-gradient(135deg,#7c5cff,#354cff);color:white}.bubble{max-width:min(720px,84%);line-height:1.6;font-size:15px;white-space:pre-wrap}.user .bubble{background:#171e2b;border:1px solid #273147;padding:10px 14px;border-radius:16px 16px 4px 16px}.ai .bubble{padding:2px 0}
+.composer{position:fixed;left:270px;right:0;bottom:0;padding:12px 16px 18px;background:linear-gradient(transparent,#07090f 25%)}.box{max-width:850px;margin:auto;display:flex;align-items:flex-end;background:#101621;border:1px solid #2a3447;border-radius:17px;padding:8px}.box:focus-within{border-color:#526080}textarea{flex:1;resize:none;max-height:130px;outline:0;border:0;background:transparent;color:#fff;font:inherit;line-height:1.45;padding:10px}.send{width:43px;height:43px;border:0;border-radius:12px;background:#7c5cff;color:white;font-size:18px}.hint{max-width:850px;margin:6px auto 0;text-align:center;color:#5f697b;font-size:10px}
+.typing{display:flex;gap:4px;padding:8px}.typing i{width:6px;height:6px;border-radius:50%;background:#7d879a;animation:p 1s infinite}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}@keyframes p{50%{opacity:.2;transform:translateY(-3px)}}
+@media(max-width:700px){.side{display:none}.top{height:58px;padding:0 13px}.composer{left:0;padding:9px 9px 14px}.messages{padding-bottom:140px}.welcome{padding-top:7vh}.cards{grid-template-columns:1fr}.bubble{max-width:88%}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side"><div class="brand"><div class="logo">S</div>SBHIA AI</div><button class="new" onclick="newChat()">＋ New chat</button><div class="recent">Recent chats</div><div id="history"></div><div class="foot">Powered by OpenAI<br>SBHIA AI • v2.0</div></aside>
+<main class="main">
+<header class="top"><div class="status"><span class="dot"></span> SBHIA AI <small style="color:#697386">• Online</small></div><button class="clear" onclick="newChat()">⌫</button></header>
+<section class="messages" id="messages"><div class="wrap" id="content">
+<div class="welcome" id="welcome"><h1>How can <span class="grad">SBHIA AI</span> help?</h1><p>Ask anything. Get real AI-powered answers.</p>
+<div class="cards">
+<div class="card" onclick="promptUse('Explain quantum computing in simple words')"><b>💡 Explain</b><span>Understand difficult topics</span></div>
+<div class="card" onclick="promptUse('Give me 5 creative business ideas')"><b>✨ Create</b><span>Generate useful ideas</span></div>
+<div class="card" onclick="promptUse('Write a professional introduction for me')"><b>✍️ Write</b><span>Create polished content</span></div>
+<div class="card" onclick="promptUse('Help me build a professional HTML game')"><b>💻 Code</b><span>Build and debug projects</span></div>
+</div></div></div></section>
+<div class="composer"><div class="box"><textarea id="input" rows="1" placeholder="Message SBHIA AI..." oninput="resize(this)" onkeydown="key(event)"></textarea><button class="send" onclick="send()">➤</button></div><div class="hint">SBHIA AI may make mistakes. Verify important information.</div></div>
+</main></div>
+<script>
+const input=document.getElementById("input"),content=document.getElementById("content"),messages=document.getElementById("messages"),historyBox=document.getElementById("history");
+let chats=[];
+function resize(e){e.style.height="auto";e.style.height=Math.min(e.scrollHeight,130)+"px"}
+function key(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}}
+function promptUse(t){input.value=t;resize(input);send()}
+function add(role,text){
+ const row=document.createElement("div");row.className="msg "+role;
+ const av=document.createElement("div");av.className="avatar";av.textContent=role==="ai"?"S":"YOU";
+ const b=document.createElement("div");b.className="bubble";b.textContent=text;
+ role==="ai"?row.append(av,b):row.append(b,av);content.append(row);messages.scrollTop=messages.scrollHeight;
+}
+async function send(){
+ const text=input.value.trim();if(!text)return;
+ document.getElementById("welcome")?.remove();add("user",text);chats.push({role:"user",content:text});input.value="";resize(input);renderHistory();
+ const typing=document.createElement("div");typing.className="msg ai";typing.id="typing";typing.innerHTML='<div class="avatar">S</div><div class="bubble"><div class="typing"><i></i><i></i><i></i></div></div>';content.append(typing);messages.scrollTop=messages.scrollHeight;
+ try{
+  const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:chats})});
+  const data=await r.json();typing.remove();
+  if(!r.ok)throw new Error(data.error||"Request failed");
+  add("ai",data.reply);chats.push({role:"assistant",content:data.reply});
+ }catch(e){typing.remove();add("ai","Sorry, I couldn't connect to the AI.\n\n"+e.message)}
+}
+function renderHistory(){historyBox.innerHTML=chats.filter(x=>x.role==="user").slice(-6).reverse().map(x=>`<div class="item">${esc(x.content)}</div>`).join("")}
+function esc(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function newChat(){location.reload()}
+</script>
+</body>
+</html>
